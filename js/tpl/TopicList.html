@@ -1,0 +1,26 @@
+<ul class="topcoat-list list">
+    <% _.each(topics, function(topic) { %>
+    <% _.each(topic, function(topicItem) { %>
+    <li class="topcoat-list__item">
+        <a href="#topics/<%= topicItem.id %>/<%= topicItem.category %>">
+            <!--<img src='pics/<%= topic.pic %>'/>-->
+            <p><%= topicItem.source %> / <%= topicItem.target %></p>
+
+            <p><%= topicItem.category %></p>
+        </a>
+        <span class="chevron"></span>
+    </li>
+
+    <% }); %>
+    <% }); %>
+
+
+</ul>
+<!--
+<div class="topcoat-button-bar full">
+    <div class="topcoat-button-bar__item">
+        <a href="#newCategory">
+            <button class="topcoat-button-bar__button full" id="addNewCategory">
+                Add New Category</button></a>
+    </div>
+</div>-->
