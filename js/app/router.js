@@ -50,12 +50,75 @@ define(function (require) {
         },
 
         newCategory: function () {
-            require(["app/models/wectionary", "app/views/NewCategory"], function (models, NewCategory) {
-                var categoryToSave = new models.CategoryToSave();
-                slider.slidePage(new NewCategory({categoryToSave:categoryToSave}).$el);
-            });
+            window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onInitFs, errorHandler);
         }
 
     });
+
+    function onInitFs(fs) {
+
+
+        var fileURL = "cdvfile://localhost/persistent/topics.json";
+
+        var fileTransfer = new FileTransfer();
+        var uri = encodeURI("https://language-service.herokuapp.com/api/v1/topics/?format=json");
+
+        fileTransfer.download(
+            uri,
+            fileURL,
+            function(entry) {
+                console.log("download complete: " + entry.fullPath);
+            },
+            function(error) {
+                console.log("download error source " + error.source);
+                console.log("download error target " + error.target);
+                console.log("upload error code" + error.code);
+            }
+        );
+        uri = encodeURI("https://language-service.herokuapp.com/api/v1/items/?format=json");
+        fileURL = "cdvfile://localhost/persistent/items.json";
+        fileTransfer.download(
+            uri,
+            fileURL,
+            function(entry) {
+                console.log("download complete: " + entry.fullPath);
+            },
+            function(error) {
+                console.log("download error source " + error.source);
+                console.log("download error target " + error.target);
+                console.log("upload error code" + error.code);
+            }
+        );
+    }
+
+
+    function errorHandler(e) {
+        var msg = '';
+
+        switch (e.code) {
+            case FileError.QUOTA_EXCEEDED_ERR:
+                msg = 'QUOTA_EXCEEDED_ERR';
+                break;
+            case FileError.NOT_FOUND_ERR:
+                msg = 'NOT_FOUND_ERR';
+                break;
+            case FileError.SECURITY_ERR:
+                msg = 'SECURITY_ERR';
+                break;
+            case FileError.INVALID_MODIFICATION_ERR:
+                msg = 'INVALID_MODIFICATION_ERR';
+                break;
+            case FileError.INVALID_STATE_ERR:
+                msg = 'INVALID_STATE_ERR';
+                break;
+            default:
+                msg = 'Unknown Error';
+                break;
+        }
+
+        alert('Error: ' + msg);
+    }
+
 
 });

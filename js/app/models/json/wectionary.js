@@ -13,7 +13,8 @@ define(function (require) {
 
             model: Item,
 
-            url: rootUrl + "/items/?format=json"
+            url: "cdvfile://localhost/persistent/items.json"
+                //rootUrl + "/items/?format=json"
 
         }),
 
@@ -49,7 +50,8 @@ define(function (require) {
 
             model: Topic,
 
-            url: rootUrl + "/topics/?format=json"
+            url: "cdvfile://localhost/persistent/topics.json"
+                //rootUrl + "/topics/?format=json"
         });
 
     return {
